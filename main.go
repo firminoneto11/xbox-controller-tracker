@@ -35,7 +35,10 @@ func listenXboxJoyStick() error {
 
 	fmt.Println("Capturing joystick events...")
 
-	const XboxGuideButton = 10
+	const (
+		XboxGuideButton = 10
+		key             = "insert"
+	)
 	running := true
 	for running {
 		for event := sdl.PollEvent(); event != nil; event = sdl.PollEvent() {
@@ -46,8 +49,8 @@ func listenXboxJoyStick() error {
 
 			case *sdl.JoyButtonEvent:
 				if polledEvent.State == sdl.PRESSED && polledEvent.Button == XboxGuideButton {
-					fmt.Println("Joystick", polledEvent.Which, "button", polledEvent.Button, "pressed")
-					go pressKey("insert", &group)
+					go pressKey(key, &group)
+					fmt.Printf("'%s' was pressed!\n", key)
 				}
 
 			case *sdl.JoyDeviceAddedEvent:
@@ -65,8 +68,8 @@ func listenXboxJoyStick() error {
 				fmt.Println("Joystick", polledEvent.Which, "disconnected")
 			}
 		}
-		// Waiting 15 milliseconds before polling the events again
-		sdl.Delay(15)
+		// Waiting 10 milliseconds before polling the events again
+		sdl.Delay(10)
 	}
 
 	group.Wait()
