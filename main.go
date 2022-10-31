@@ -2,44 +2,20 @@ package main
 
 import (
 	"fmt"
+	"github.com/go-vgo/robotgo"
 	"github.com/veandco/go-sdl2/sdl"
-	"golang.org/x/sys/windows"
 	"os"
 	"sync"
-	"unsafe"
 )
 
-var (
-	user32DLL = windows.NewLazyDLL("user32.dll")
-	SendInput = user32DLL.NewProc("SendInput")
-)
+// DOCS: Keys can be found at:
+// https://github.com/go-vgo/robotgo/blob/master/docs/keys.md
 
-type KeyBoardInput struct {
-	windowsVirtualKey uint16
-	wScan             uint16
-	dwFlags           uint32
-	time              uint32
-	dwExtraInfo       uint64
-}
-
-type Input struct {
-	inputType     uint32
-	keyboardInput KeyBoardInput
-	padding       uint64
-}
-
-func pressKey(group *sync.WaitGroup) {
+func pressKey(key string, group *sync.WaitGroup) {
 	group.Add(1)
-	defer group.Done()
-
-	var input Input
-	input.inputType = 1
-	input.keyboardInput.windowsVirtualKey = 0xD2
-
-	_, _, err := SendInput.Call(uintptr(1), uintptr(unsafe.Pointer(&input)), unsafe.Sizeof(input))
-	if err != nil {
-		fmt.Println(err)
-	}
+	robotgo.KeyDown(key)
+	robotgo.KeyUp(key)
+	group.Done()
 }
 
 func listenXboxJoyStick() error {
@@ -71,7 +47,7 @@ func listenXboxJoyStick() error {
 			case *sdl.JoyButtonEvent:
 				if polledEvent.State == sdl.PRESSED && polledEvent.Button == XboxGuideButton {
 					fmt.Println("Joystick", polledEvent.Which, "button", polledEvent.Button, "pressed")
-					go pressKey(&group)
+					go pressKey("insert", &group)
 				}
 
 			case *sdl.JoyDeviceAddedEvent:
@@ -89,8 +65,8 @@ func listenXboxJoyStick() error {
 				fmt.Println("Joystick", polledEvent.Which, "disconnected")
 			}
 		}
-		// Waiting 16 milliseconds before polling the events again
-		sdl.Delay(16)
+		// Waiting 15 milliseconds before polling the events again
+		sdl.Delay(15)
 	}
 
 	group.Wait()
