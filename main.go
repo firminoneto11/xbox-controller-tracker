@@ -93,6 +93,8 @@ func listenXboxJoyStick() error {
 		sdl.Delay(16)
 	}
 
+	group.Wait()
+
 	return err
 }
 
