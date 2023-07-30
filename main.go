@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"github.com/go-vgo/robotgo"
-	"github.com/veandco/go-sdl2/sdl"
 	"os"
 	"sync"
+
+	"github.com/go-vgo/robotgo"
+	"github.com/veandco/go-sdl2/sdl"
 )
 
 // DOCS: Keys can be found at:

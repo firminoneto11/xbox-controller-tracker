@@ -1,10 +1,10 @@
-module main
+module github.com/firminoneto11/xbox-controller-tracker
 
-go 1.19
+go 1.20
 
 require (
 	github.com/go-vgo/robotgo v0.100.10
-	github.com/veandco/go-sdl2 v0.4.25
+	github.com/veandco/go-sdl2 v0.4.35
 )
 
 require (
