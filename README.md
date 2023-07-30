@@ -10,8 +10,12 @@
 
 - Install a C Compiler for Windows: [GCC](https://jmeubank.github.io/tdm-gcc/download/)
 
-- Install SDL
+- Install SDL (Check the instructions bellow)
 
----
+## Installing SDL
+
+In this project, theres a `sdl.zip` file. After you have successfully installed the TDM GCC for windows, unzip this `sdl.zip` file into the `C:\TDM-GCC-64\x86_64-w64-mingw32` folder. That's it! SDL is installed.
+
+Keep in mind that the `C:\TDM-GCC-64` folder should be the path where you installed TDM GCC.
 
 ### The same code has also been written in python. Check the ./python directory if you'd like!
